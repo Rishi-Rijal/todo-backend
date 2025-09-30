@@ -4,11 +4,11 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model";
 
 
-const verifyJWT = asyncHandler(async(req, res, next)=>{
+const verifyJWT = asyncHandler(async (req, res, next) => {
 
-    try{
+    try {
         const token = req.cookies?.accessToken
-        if(!token){
+        if (!token) {
             throw new ApiError(400, "Unauthorized request")
         }
 
@@ -16,15 +16,15 @@ const verifyJWT = asyncHandler(async(req, res, next)=>{
 
         const user = await User.findById(decodedToken?._id).select("-password, -refreshToken");
 
-        if(!user){
+        if (!user) {
             throw new ApiError(40, "Invalid access token")
         }
 
         req.user = user
         next()
-    }catch(error){
+    } catch (error) {
         throw new ApiError(401, error?.message || "Invalid access token")
     }
 });
 
-export {verifyJWT}
+export { verifyJWT }
