@@ -11,8 +11,6 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
-        index: true,
         trim: true,
         lowercase: true
     },
@@ -26,7 +24,6 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        index: true,
         lowercase: true,
         trim: true
     },
@@ -35,7 +32,10 @@ const userSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "Todo"
         }
-    ]
+    ],
+    refreshToken: {
+        type: String
+    }
 })
 
 userSchema.pre("save", async function (next) {
