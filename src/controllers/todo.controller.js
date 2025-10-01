@@ -55,18 +55,17 @@ const getAllTasks = asyncHandler(async (req, res) => {
         throw new ApiError(401, "id is required")
     }
 
-    const isTodo = Todo.findById(todoId);
+    const isTodo = await Todo.findById(todoId);
 
     if (!isTodo) {
         throw new ApiError(400, "no todo with that id")
     }
 
-    const allTasks = Todo.aggregate([
+    const allTasks = await Todo.aggregate([
         {
             $match: {
                 _id: mongoose.Types.ObjectId(id)
             }
-
         },
         {
             $lookup: {
