@@ -1,13 +1,12 @@
 import Subtodo from "../models/subtodo.model.js"
-import Todo from "../models/todo.model.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-import mongoose from "mongoose"
 
 
 const createTask = asyncHandler(async (req, res) => {
-    const {todoId, task } = req.body
+    const { todoId } = req.params
+    const { task } = req.body
 
     if (!todoId || !task) {
         throw new ApiError(400, "todo id and task is required")
@@ -57,4 +56,4 @@ const createTask = asyncHandler(async (req, res) => {
 // })
 
 
-export {createTask, getAllTasks}
+export { createTask }
