@@ -29,32 +29,32 @@ const createTask = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, createdSubtodo, "task created successfully"))
 })
 
-const getAllTasks = asyncHandler(async(req, res)=>{
-    const {todoId} = req.params
+// const getAllTasks = asyncHandler(async(req, res)=>{
+//     const {todoId} = req.params
 
-    if(!todoId){
-        throw new ApiError(400, "todo does not exist")
-    }
+//     if(!todoId){
+//         throw new ApiError(400, "todo does not exist")
+//     }
 
-    const todo = await Todo.findById(todoId);
+//     const todo = await Todo.findById(todoId);
 
-    if(!todo){
-        throw new ApiError(400, "todo does not exist")
-    }
+//     if(!todo){
+//         throw new ApiError(400, "todo does not exist")
+//     }
 
-    const tasks = await Subtodo.aggregate([
-        {
-            $match:{
-                todo: mongoose.Types.ObjectId(todoId)
-            }
-        }
-    ])
+//     const tasks = await Subtodo.aggregate([
+//         {
+//             $match:{
+//                 todo: mongoose.Types.ObjectId(todoId)
+//             }
+//         }
+//     ])
 
-    return res
-    .status(200)
-    .json(new ApiResponse(200, tasks, "todo fetched successfully"))
+//     return res
+//     .status(200)
+//     .json(new ApiResponse(200, tasks, "todo fetched successfully"))
 
-})
+// })
 
 
 export {createTask, getAllTasks}

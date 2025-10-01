@@ -48,4 +48,49 @@ const getAllTodos = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, todos, "todos fetched successfully"))
 })
 
-export { createTodo, getAllTodos }
+const getAllTasks = asyncHandler(async (req, res) => {
+    const { todoId } = req.params;
+
+    if (!todoId) {
+        throw new ApiError(401, "id is required")
+    }
+
+    const isTodo = Todo.findById(todoId);
+
+    if (!isTodo) {
+        throw new ApiError(400, "no todo with that id")
+    }
+
+    const allTasks = Todo.aggregate([
+        {
+            $match: {
+                _id: mongoose.Types.ObjectId(id)
+            }
+
+        },
+        {
+            $lookup: {
+                from: "subtodos",
+                localField: "_id",
+                foreignField: "todo",
+                as: "allTasks"
+            }
+        },
+        {
+            $project: {
+                title: 1,
+                allTasks: 1,
+            }
+        }
+    ])
+
+    if (!allTasks?.length) {
+        throw new ApiError(400, "todo does not exist")
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, allTasks, "all tasks fetched successfully"))
+})
+
+export { createTodo, getAllTodos, getAllTasks }
