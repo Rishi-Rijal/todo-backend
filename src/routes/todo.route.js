@@ -8,6 +8,6 @@ router.route("/todo").post(verifyJWT, createTodo)
 
 router.route("/todo").get(verifyJWT, getAllTodos)
 
-router.route("/todo/:tasks").get(verifyJWT, getAllTasks)
+router.route("/todo/:todoId").get(verifyJWT, getAllTasks)
 
 export default router
